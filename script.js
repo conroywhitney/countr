@@ -30,36 +30,27 @@ var countr = new Vue({
   },
   methods: {
     fetchComments: function() {
-      var vue = this;
-
       if (this.postId) {
-        FB.api(
-          this.endpoint,
-          function(response) {
-            console.log("fetchComments", "response", response);
-
-            if (response && !response.error) {
-              console.log("fetchComments", "success");
-
-              vue.$set(
-                vue,
-                "comments",
-                response.data.map(function(d) {
-                  return d.message;
-                })
-              );
-            } else {
-              console.log("fetchComments", "error");
-
-              vue.$set(vue, "comments", ["error"]);
-            }
-          },
-          { access_token: this.accessToken }
-        );
+        FB.api(this.endpoint, this.handleFbResponse, {
+          access_token: this.accessToken
+        });
       } else {
-        console.log("fetchComments", "no postId");
-        vue.$set(vue, "comments", []);
+        this.$set(this, "comments", []);
       }
+    },
+    handleFbResponse: function(response) {
+      if (response && !response.error) {
+        this.parseHashtags(response.data);
+      } else {
+        this.$set(this, "comments", ["error"]);
+      }
+    },
+    parseHashtags(comments) {
+      var hashtags = comments.map(function(comment) {
+        return comment.message.match(/#\w+/gi);
+      });
+
+      this.$set(this, "comments", R.flatten(hashtags));
     }
   },
   watch: {
