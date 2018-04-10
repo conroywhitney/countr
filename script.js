@@ -3,6 +3,7 @@ var countr = new Vue({
   data: {
     accessToken:
       "EAACEdEose0cBAMZA98xyV3BcbmIE3ToIzCFHVKaCIzsqYV9Iq3y3t1ZA1eCGl2SGqrqLncJAg5s80QqwKmDjd8GCrAxqhrZAKZCF7Kcr025tv7HHpms3rsc8ZBARSU1QQ2RHSclyTZCZA0aX67hpVMNygMotwvJI4oUHNrFPqwbeviRbbdxZB4BeXQffLtCEes2zbZCa8dOwWiAZDZD",
+    chart: null,
     comments: [],
     filters: "#sorrynotsorry, #tbt",
     pageId: "1614897458802033",
@@ -35,21 +36,35 @@ var countr = new Vue({
       return R.compose(R.toPairs, R.countBy(R.identity))(hashtags);
     },
     displayHashtags: function(hashtags) {
-      var total = this.sumHashtags(hashtags);
+      var data = this.hashtagData(hashtags);
+      var $chart = document.getElementById("chart");
 
-      return R.compose(
-        R.map(function(kv) {
-          var hashtag = kv[0];
-          var count = kv[1];
-          var percent = count / total;
-          var displayPercent = percent.toLocaleString("en-US", {
-            style: "percent"
-          });
+      if (this.chart) {
+        this.chart.destroy();
+      }
 
-          return hashtag + " => " + count + " (" + displayPercent + ")";
-        }),
-        R.sortBy(R.prop(0))
-      )(hashtags);
+      this.chart = new Chart($chart, {
+        type: "doughnut",
+        data: {
+          datasets: [
+            {
+              data: R.map(R.prop("percent"), data),
+              backgroundColor: [
+                "#5DA5DA",
+                "#FAA43A",
+                "#60BD68",
+                "#F17CB0",
+                "#B2912F",
+                "#B276B2",
+                "#DECF3F",
+                "#F15854"
+              ]
+            }
+          ],
+          labels: R.map(R.prop("hashtag"), data)
+        },
+        options: {}
+      });
     },
     fetchComments: function() {
       if (this.postId) {
@@ -75,6 +90,28 @@ var countr = new Vue({
         console.log("error", response.error);
       }
     },
+    hashtagData: function(hashtags) {
+      var total = this.sumHashtags(hashtags);
+
+      return R.compose(
+        R.map(function(kv) {
+          var hashtag = kv[0];
+          var count = kv[1];
+          var percent = count / total;
+          var displayPercent = percent.toLocaleString("en-US", {
+            style: "percent"
+          });
+
+          return {
+            count: count,
+            displayPercent: displayPercent,
+            hashtag: hashtag,
+            percent: percent
+          };
+        }),
+        R.sortBy(R.prop(0))
+      )(hashtags);
+    },
     parseHashtags(comments) {
       return R.compose(
         R.flatten,
@@ -92,16 +129,14 @@ var countr = new Vue({
       )(hashtags);
     },
     updateStats(comments) {
-      this.$set(
-        this,
-        "comments",
-        R.compose(
-          this.displayHashtags,
-          this.countHashtags,
-          this.filterHashtags,
-          this.parseHashtags
-        )(comments)
-      );
+      var hashtags = R.compose(
+        this.countHashtags,
+        this.filterHashtags,
+        this.parseHashtags
+      )(comments);
+
+      this.$set(this, "comments", hashtags);
+      this.displayHashtags(hashtags);
     }
   }
 });
