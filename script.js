@@ -13,8 +13,6 @@ var countr = new Vue({
       appId: "1187659591254644",
       version: "v2.12"
     });
-
-    this.fetchComments();
   },
   computed: {
     endpoint: function() {
@@ -30,6 +28,9 @@ var countr = new Vue({
     }
   },
   methods: {
+    buttonClick: function() {
+      this.fetchComments();
+    },
     countHashtags: function(hashtags) {
       return R.compose(R.toPairs, R.countBy(R.identity))(hashtags);
     },
@@ -69,7 +70,7 @@ var countr = new Vue({
       if (response && !response.error) {
         this.updateStats(response.data);
       } else {
-        this.$set(this, "comments", ["error"]);
+        this.$set(this, "comments", ["error", response.error]);
       }
     },
     parseHashtags(comments) {
@@ -99,11 +100,6 @@ var countr = new Vue({
           this.parseHashtags
         )(comments)
       );
-    }
-  },
-  watch: {
-    postId: function(newPostId) {
-      this.fetchComments();
     }
   }
 });

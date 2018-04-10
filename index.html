@@ -13,13 +13,14 @@
         </li>
       </ul>
       <div v-if="comments.length == 0">
-        No comments
+        No data
       </div>
     </div>
 
     <div id="inputs">
       <input id="postId" v-model="postId">
-      <textarea id="filters" v-model="filters"></textarea>
+      <input id="filters" v-model="filters">
+      <button type="button" id="update" @click="buttonClick">Update</button>
     </div>
   </div>
 

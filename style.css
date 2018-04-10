@@ -39,3 +39,8 @@ body {
   font-size: 16pt;
   padding: 5px 10px;
 }
+
+#update {
+  width: 100px;
+  font-size: 16pt;
+}
