@@ -2,7 +2,7 @@ var countr = new Vue({
   el: "#countr",
   data: {
     accessToken:
-      "EAACEdEose0cBAKBtNxIMz8xbE37oRR9NInpkOlapO3hViyqFZAe41ecTljWqPGdEhrYsjdMtMEA4aR5tbUrQ2kR3Tsv2iTSK6pZBqHmSW4hy7LzzRZC236VR3yFT65RFYu1OYcZACwbVFUmZCBhnJ5om38GoRjrzRiKI6Bndc6uI6ZCizrB8xdvDS2wtfakm0ZD",
+      "EAACEdEose0cBAMZA98xyV3BcbmIE3ToIzCFHVKaCIzsqYV9Iq3y3t1ZA1eCGl2SGqrqLncJAg5s80QqwKmDjd8GCrAxqhrZAKZCF7Kcr025tv7HHpms3rsc8ZBARSU1QQ2RHSclyTZCZA0aX67hpVMNygMotwvJI4oUHNrFPqwbeviRbbdxZB4BeXQffLtCEes2zbZCa8dOwWiAZDZD",
     comments: [],
     filters: "#sorrynotsorry, #tbt",
     pageId: "1614897458802033",
@@ -72,7 +72,7 @@ var countr = new Vue({
       if (response && !response.error) {
         this.updateStats(response.data);
       } else {
-        this.$set(this, "comments", ["error", response.error]);
+        console.log("error", response.error);
       }
     },
     parseHashtags(comments) {
