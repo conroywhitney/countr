@@ -34,13 +34,7 @@ body {
   padding: 15px;
 }
 
-#filters {
-  flex: 5;
-  font-size: 16pt;
-  padding: 5px 10px;
-}
-
-#postId {
+#inputs input {
   flex: 5;
   font-size: 16pt;
   padding: 5px 10px;
