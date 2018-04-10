@@ -61,6 +61,8 @@ var countr = new Vue({
       }
     },
     filterHashtag: function(hashtag) {
+      if (this.filterArray.length == 0) return true;
+
       return R.contains(hashtag, this.filterArray);
     },
     filterHashtags: function(hashtags) {
