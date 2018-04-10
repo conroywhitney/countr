@@ -4,7 +4,7 @@ var countr = new Vue({
     accessToken:
       "EAACEdEose0cBAKBtNxIMz8xbE37oRR9NInpkOlapO3hViyqFZAe41ecTljWqPGdEhrYsjdMtMEA4aR5tbUrQ2kR3Tsv2iTSK6pZBqHmSW4hy7LzzRZC236VR3yFT65RFYu1OYcZACwbVFUmZCBhnJ5om38GoRjrzRiKI6Bndc6uI6ZCizrB8xdvDS2wtfakm0ZD",
     comments: [],
-    hashtags: "",
+    filters: "#sorrynotsorry, #tbt",
     pageId: "1614897458802033",
     postId: "1690591321232646"
   },
@@ -18,11 +18,12 @@ var countr = new Vue({
   },
   computed: {
     endpoint: function() {
-      var result = "/" + this.pageId + "_" + this.postId + "/comments";
+      return "/" + this.pageId + "_" + this.postId + "/comments";
+    },
+    filterArray() {
+      if (!this.filters || this.filters.length == 0) return [];
 
-      console.log("endpoint", "result", result);
-
-      return result;
+      return this.filters.split(/[,\s]+/gi);
     },
     hashTagArray: function() {
       return this.hashtags.split(/\s+/);
@@ -49,8 +50,11 @@ var countr = new Vue({
         this.$set(this, "comments", []);
       }
     },
+    filterHashtag: function(hashtag) {
+      return R.contains(hashtag, this.filterArray);
+    },
     filterHashtags: function(hashtags) {
-      return hashtags;
+      return R.filter(this.filterHashtag, hashtags);
     },
     handleFbResponse: function(response) {
       if (response && !response.error) {
