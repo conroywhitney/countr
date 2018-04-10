@@ -1,0 +1,29 @@
+<html>
+<head>
+  <title>Jawsh - Countr</title>
+  <script src="https://unpkg.com/vue"></script>
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Open+Sans|VT323" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+  <div id="countr">
+    <div id="output">
+      <ul v-if="comments.length > 0">
+        <li v-for="comment in comments">
+          {{ comment }}
+        </li>
+      </ul>
+      <div v-if="comments.length == 0">
+        No comments
+      </div>
+    </div>
+
+    <div id="inputs">
+      <input id="postId" v-model="postId">
+      <textarea id="hashtags" v-model="hashtags"></textarea>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+</body>

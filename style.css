@@ -1,0 +1,41 @@
+html,
+body {
+  border: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#countr {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+#output {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  font-size: 16pt;
+  align-items: center;
+}
+
+#inputs {
+  display: flex;
+  height: 50px;
+  padding: 15px;
+}
+
+#hashtags {
+  flex: 5;
+  font-size: 16pt;
+  padding: 5px 10px;
+}
+
+#postId {
+  flex: 5;
+  font-size: 16pt;
+  padding: 5px 10px;
+}
