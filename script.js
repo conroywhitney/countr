@@ -5,7 +5,7 @@ var countr = new Vue({
       "EAACEdEose0cBAMZA98xyV3BcbmIE3ToIzCFHVKaCIzsqYV9Iq3y3t1ZA1eCGl2SGqrqLncJAg5s80QqwKmDjd8GCrAxqhrZAKZCF7Kcr025tv7HHpms3rsc8ZBARSU1QQ2RHSclyTZCZA0aX67hpVMNygMotwvJI4oUHNrFPqwbeviRbbdxZB4BeXQffLtCEes2zbZCa8dOwWiAZDZD",
     chart: null,
     comments: [],
-    filters: "#sorrynotsorry, #tbt",
+    filters: "",
     pageId: "1614897458802033",
     postId: "1690591321232646"
   },
