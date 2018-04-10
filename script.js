@@ -29,6 +29,17 @@ var countr = new Vue({
     }
   },
   methods: {
+    countHashtags: function(hashtags) {
+      return R.compose(R.toPairs, R.countBy(R.identity))(hashtags);
+    },
+    displayHashtags: function(hashtags) {
+      return R.compose(
+        R.map(function(kv) {
+          return kv[0] + " => " + kv[1];
+        }),
+        R.sortBy(R.prop(0))
+      )(hashtags);
+    },
     fetchComments: function() {
       if (this.postId) {
         FB.api(this.endpoint, this.handleFbResponse, {
@@ -38,19 +49,35 @@ var countr = new Vue({
         this.$set(this, "comments", []);
       }
     },
+    filterHashtags: function(hashtags) {
+      return hashtags;
+    },
     handleFbResponse: function(response) {
       if (response && !response.error) {
-        this.parseHashtags(response.data);
+        this.updateStats(response.data);
       } else {
         this.$set(this, "comments", ["error"]);
       }
     },
     parseHashtags(comments) {
-      var hashtags = comments.map(function(comment) {
-        return comment.message.match(/#\w+/gi);
-      });
-
-      this.$set(this, "comments", R.flatten(hashtags));
+      return R.compose(
+        R.flatten,
+        R.map(function(comment) {
+          return comment.message.match(/#\w+/gi);
+        })
+      )(comments);
+    },
+    updateStats(comments) {
+      this.$set(
+        this,
+        "comments",
+        R.compose(
+          this.displayHashtags,
+          this.countHashtags,
+          this.filterHashtags,
+          this.parseHashtags
+        )(comments)
+      );
     }
   },
   watch: {
