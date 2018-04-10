@@ -34,9 +34,18 @@ var countr = new Vue({
       return R.compose(R.toPairs, R.countBy(R.identity))(hashtags);
     },
     displayHashtags: function(hashtags) {
+      var total = this.sumHashtags(hashtags);
+
       return R.compose(
         R.map(function(kv) {
-          return kv[0] + " => " + kv[1];
+          var hashtag = kv[0];
+          var count = kv[1];
+          var percent = count / total;
+          var displayPercent = percent.toLocaleString("en-US", {
+            style: "percent"
+          });
+
+          return hashtag + " => " + count + " (" + displayPercent + ")";
         }),
         R.sortBy(R.prop(0))
       )(hashtags);
@@ -70,6 +79,14 @@ var countr = new Vue({
           return comment.message.match(/#\w+/gi);
         })
       )(comments);
+    },
+    sumHashtags(hashtags) {
+      return R.compose(
+        R.sum,
+        R.map(function(hashtag) {
+          return hashtag[1];
+        })
+      )(hashtags);
     },
     updateStats(comments) {
       this.$set(
