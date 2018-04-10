@@ -5,7 +5,7 @@ Count occurrences of hashtags in all comments on a given post on a given page
 
 1. Fill in the input fields:
  * `Access Token` -- your FB access token (get from the [Facebook Graph Explorer](https://developers.facebook.com/tools/explorer/))
- * `Page ID` -- the page on which the given post exists ()
+ * `Page ID` -- the page on which the given post exists ([see screenshot](http://files.conroywhitney.com.s3.amazonaws.com/jawsh/countr/facebook-find-page-id.png))
  * `Post ID` -- the post whose comments you want to analyze ([how to find the Post ID](http://blog.krischant.com/post/54131988674/tutorial-finding-a-post-or-comment-id-on-facebook))
  * `Hashtag Filters` -- a comman-separated whitelist of which comments to include (leave blank for all comments)
 
